@@ -41,7 +41,7 @@ jobs:
           find /opt/esp -maxdepth 4 -type f -name python 2>/dev/null | head -20
 
       - name: Restore ccache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: /github/home/.cache/ccache
           key: ccache-${{ runner.os }}-${{ hashFiles('CMakePresets.json', '**/CMakeLists.txt', 'esp/sdkconfig.defaults') }}
