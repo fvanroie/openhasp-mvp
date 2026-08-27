@@ -14,6 +14,9 @@ jobs:
           - wt32-sc01-plus-16mb
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     container:
       image: espressif/idf:v6.0.2
@@ -37,21 +40,6 @@ jobs:
           find /opt/esp -maxdepth 4 -type f -name pip 2>/dev/null | head -20
           find /opt/esp -maxdepth 4 -type f -name python 2>/dev/null | head -20
 
-      - name: Install project requirements
-        run: |
-          /opt/esp/python_env/idf6.0_py3.12_env/bin/python \
-            -m pip install -r requirements.txt
-
-      - name: Inspect Python environment
-        run: |
-          echo "PATH=$PATH"
-          echo "IDF_PATH=$IDF_PATH"
-          which python
-          python --version
-          which pip || true
-          find /opt/esp -maxdepth 4 -type f -name pip 2>/dev/null | head -20
-          find /opt/esp -maxdepth 4 -type f -name python 2>/dev/null | head -20
-
       - name: Restore ccache
         uses: actions/cache@v4
         with:
@@ -60,10 +48,17 @@ jobs:
           restore-keys: |
             ccache-${{ runner.os }}-
 
-      # ESP-IDF run...
-
+      - name: Install project requirements
+        run: |
+          source "$IDF_PATH/export.sh"
+          python -m pip install -r requirements.txt
+      
       - name: Board Manager
-        run: idf.py bmgr -b "wt32_sc01_plus"
-
+        run: |
+          source "$IDF_PATH/export.sh"
+          python tools/board.py "${{ matrix.preset }}"
+      
       - name: Build
-        run: idf.py --preset "${{ matrix.preset }}" build
+        run: |
+          source "$IDF_PATH/export.sh"
+          idf.py --preset "${{ matrix.preset }}" build
