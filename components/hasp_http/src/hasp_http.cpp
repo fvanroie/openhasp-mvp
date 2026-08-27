@@ -421,7 +421,7 @@ esp_err_t HaspHttp::ws_handler(httpd_req_t *req)
 
         // Echo back the same frame
         frame.type = HTTPD_WS_TYPE_TEXT;
-        esp_err_t err = httpd_ws_send_frame(req, &frame);
+        err = httpd_ws_send_frame(req, &frame);
     }
 
     free(frame.payload);
@@ -454,7 +454,8 @@ esp_err_t HaspHttp::start_backend()
         .method = HTTP_GET,
         .handler = config_get_handler,
         .user_ctx = this,
-    };
+        .is_websocket = false,
+        .ws_pre_handshake_cb = nullptr};
     err = httpd_register_uri_handler(server_, &get_uri);
     if (err != ESP_OK)
     {
@@ -468,7 +469,9 @@ esp_err_t HaspHttp::start_backend()
         .uri = "/api/config",
         .method = HTTP_POST,
         .handler = config_post_handler,
-        .user_ctx = this};
+        .user_ctx = this,
+        .is_websocket = false,
+        .ws_pre_handshake_cb = nullptr};
     err = httpd_register_uri_handler(server_, &post_uri);
     if (err != ESP_OK)
     {
@@ -482,7 +485,8 @@ esp_err_t HaspHttp::start_backend()
         .method = HTTP_GET,
         .handler = console_get_handler,
         .user_ctx = this,
-    };
+        .is_websocket = false,
+        .ws_pre_handshake_cb = nullptr};
 
     err = httpd_register_uri_handler(server_, &console_uri);
     if (err != ESP_OK)
