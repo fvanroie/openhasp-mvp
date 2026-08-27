@@ -94,7 +94,7 @@ esp_err_t hasp_log_init(void)
     }
     
     // ret = uart_param_config(HASP_LOG_UART_PORT, &uart_config);
-    ret = uart_set_baudrate(HASP_LOG_UART_PORT, 115200)
+    ret = uart_set_baudrate(HASP_LOG_UART_PORT, 115200);
     if (ret != ESP_OK) {
         return ret;
     }
