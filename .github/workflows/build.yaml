@@ -15,21 +15,44 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    container:
+      image: espressif/idf:v6.0.2
+
     steps:
-      - uses: actions/checkout@v4
-
-      # ESP-IDF setup...
-
-      - uses: espressif/install-esp-idf-action@v1
-        with:
-          version: v6.0.2
-          cache: true
+      - uses: actions/checkout@v5
+      
+      - name: Show ccache configuration
+        run: |
+          echo "CCACHE_DIR=$CCACHE_DIR"
+          ccache --show-config
+          ccache --show-stats
 
       - name: Install project requirements
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+
+      - name: Configure ccache
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.ccache"
+          echo "CCACHE_DIR=$GITHUB_WORKSPACE/.ccache" >> "$GITHUB_ENV"
+          echo "IDF_CCACHE_ENABLE=1" >> "$GITHUB_ENV"
+
+      - name: Restore ccache
+        uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ccache-${{ runner.os }}-${{ matrix.preset }}-${{ hashFiles('CMakePresets.json', '**/CMakeLists.txt', 'esp/sdkconfig.defaults') }}
+          restore-keys: |
+            ccache-${{ runner.os }}-${{ matrix.preset }}-
+            ccache-${{ runner.os }}-
           
+      - name: Show ccache configuration
+        run: |
+          echo "CCACHE_DIR=$CCACHE_DIR"
+          ccache --show-config
+          ccache --show-stats
+
       # ESP-IDF run...
 
       - name: Board Manager
