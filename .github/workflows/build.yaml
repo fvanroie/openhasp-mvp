@@ -67,7 +67,7 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           idf.py --preset "${{ matrix.preset }}" merge-bin \
-            -o "build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin" \
+            -o "openhasp-${{ matrix.preset }}.bin" \
             -f raw
       
       - name: Upload firmware
