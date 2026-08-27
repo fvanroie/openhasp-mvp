@@ -56,7 +56,7 @@ jobs:
       - name: Board Manager
         run: |
           source "$IDF_PATH/export.sh"
-          python tools/board.py "${{ matrix.preset }}"
+          idf.py bmgr -b "${{ matrix.preset }}"
       
       - name: Build
         run: |
