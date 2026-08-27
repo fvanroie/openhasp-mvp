@@ -57,8 +57,21 @@ jobs:
         run: |
           source "$IDF_PATH/export.sh"
           idf.py bmgr -b "wt32_sc01_plus"
-      
+            
       - name: Build
         run: |
-          source "$IDF_PATH/export.sh"
+          . "$IDF_PATH/export.sh"
           idf.py --preset "${{ matrix.preset }}" build
+      
+      - name: Merge firmware
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py --preset "${{ matrix.preset }}" merge-bin \
+            -o "build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin" \
+            -f raw
+      
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: openhasp-${{ matrix.preset }}
+          path: build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin
