@@ -6,12 +6,12 @@
 
 static const char *TAG = "HASP_HTTP";
 
-#define REQUIRE_AUTH(req)                                      \
-    do                                                         \
-    {                                                          \
-        auto *self = from_req(req); \
-        if (self->require_auth(req) != ESP_OK)                 \
-            return ESP_FAIL;                                   \
+#define REQUIRE_AUTH(req)                      \
+    do                                         \
+    {                                          \
+        auto *self = from_req(req);            \
+        if (self->require_auth(req) != ESP_OK) \
+            return ESP_FAIL;                   \
     } while (0)
 
 // ---------------------------------------------------------------------------
@@ -53,6 +53,34 @@ static bool constant_time_equal(
     }
 
     return diff == 0;
+}
+
+static httpd_uri_t make_uri(
+    const char *uri,
+    httpd_method_t method,
+    esp_err_t (*handler)(httpd_req_t *),
+    void *user_ctx,
+    bool websocket = false)
+{
+    httpd_uri_t result = {
+        .uri = uri,
+        .method = method,
+        .handler = handler,
+        .user_ctx = user_ctx,
+#if CONFIG_HTTPD_WS_SUPPORT
+        .is_websocket = false,
+        .handle_ws_control_frames = false,
+        .supported_subprotocol = nullptr,
+#if CONFIG_HTTPD_WS_PRE_HANDSHAKE_CB_SUPPORT
+        .ws_pre_handshake_cb = nullptr,
+#endif
+#if CONFIG_HTTPD_WS_POST_HANDSHAKE_CB_SUPPORT
+        .ws_post_handshake_cb = nullptr,
+#endif
+#endif
+    };
+
+    return result;
 }
 
 // -----------------------------------------------------------------------------
@@ -274,7 +302,7 @@ esp_err_t HaspHttp::config_get_handler(httpd_req_t *req)
 
 esp_err_t HaspHttp::console_get_handler(httpd_req_t *req)
 {
-        REQUIRE_AUTH(req);
+    REQUIRE_AUTH(req);
 
     httpd_resp_set_type(req, "text/html");
 
@@ -325,7 +353,7 @@ esp_err_t HaspHttp::console_get_handler(httpd_req_t *req)
 // ---------------------------------------------------------------------------
 esp_err_t HaspHttp::config_post_handler(httpd_req_t *req)
 {
-        REQUIRE_AUTH(req);
+    REQUIRE_AUTH(req);
 
     HaspHttp *self = from_req(req);
 
@@ -449,13 +477,7 @@ esp_err_t HaspHttp::start_backend()
     }
 
     // GET /api/config
-    httpd_uri_t get_uri = {
-        .uri = "/api/config",
-        .method = HTTP_GET,
-        .handler = config_get_handler,
-        .user_ctx = this,
-        .is_websocket = false,
-        .ws_pre_handshake_cb = nullptr};
+    auto get_uri = make_uri("/api/config", HTTP_GET, config_get_handler, this);
     err = httpd_register_uri_handler(server_, &get_uri);
     if (err != ESP_OK)
     {
@@ -465,13 +487,7 @@ esp_err_t HaspHttp::start_backend()
     }
 
     // POST /api/config
-    httpd_uri_t post_uri = {
-        .uri = "/api/config",
-        .method = HTTP_POST,
-        .handler = config_post_handler,
-        .user_ctx = this,
-        .is_websocket = false,
-        .ws_pre_handshake_cb = nullptr};
+    auto post_uri = make_uri("/api/config", HTTP_POST, config_post_handler, this);
     err = httpd_register_uri_handler(server_, &post_uri);
     if (err != ESP_OK)
     {
@@ -480,14 +496,7 @@ esp_err_t HaspHttp::start_backend()
         return err;
     }
 
-    httpd_uri_t console_uri = {
-        .uri = "/console.html",
-        .method = HTTP_GET,
-        .handler = console_get_handler,
-        .user_ctx = this,
-        .is_websocket = false,
-        .ws_pre_handshake_cb = nullptr};
-
+    auto console_uri = make_uri("/console.html", HTTP_GET, console_get_handler, this);
     err = httpd_register_uri_handler(server_, &console_uri);
     if (err != ESP_OK)
     {
@@ -496,14 +505,7 @@ esp_err_t HaspHttp::start_backend()
         return err;
     }
 
-    httpd_uri_t ws_uri = {
-        .uri = "/ws",
-        .method = HTTP_GET,
-        .handler = ws_handler,
-        .user_ctx = this,
-        .is_websocket = true,
-        .ws_pre_handshake_cb = nullptr};
-
+    auto ws_uri = make_uri("/ws", HTTP_GET, ws_handler, this, true);
     err = httpd_register_uri_handler(server_, &ws_uri);
     if (err != ESP_OK)
     {
