@@ -77,6 +77,7 @@ devices:
     dependencies:
       espressif/esp_lcd_touch_ft5x06: "*"
       espressif/esp_lcd_touch: "*"
+      espressif/esp_board_manager: "*"
 
     config:
       io_i2c_config:
