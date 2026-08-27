@@ -76,14 +76,16 @@ esp_err_t hasp_log_init(void)
     }
 
     // Configure and Install Hardware UART0
-    const uart_config_t uart_config = {
-        .baud_rate  = 115200,
-        .data_bits  = UART_DATA_8_BITS,
-        .parity     = UART_PARITY_DISABLE,
-        .stop_bits  = UART_STOP_BITS_1,
-        .flow_ctrl  = UART_HW_FLOWCTRL_DISABLE,
-        .source_clk = UART_SCLK_DEFAULT,
-    };
+    // const uart_config_t uart_config = {
+    //     .baud_rate  = 115200,
+    //     .data_bits  = UART_DATA_8_BITS,
+    //     .parity     = UART_PARITY_DISABLE,
+    //     .stop_bits  = UART_STOP_BITS_1,
+    //     .flow_ctrl  = UART_HW_FLOWCTRL_DISABLE,
+    //     .source_clk = UART_SCLK_DEFAULT,
+    //     .rx_flow_ctrl_thresh = ,
+    //     .flags =
+    // };
     
     esp_err_t ret = uart_driver_install(HASP_LOG_UART_PORT, 256, 0, 0, NULL, 0);
     if (ret != ESP_OK) {
@@ -91,7 +93,8 @@ esp_err_t hasp_log_init(void)
         return ret;
     }
     
-    ret = uart_param_config(HASP_LOG_UART_PORT, &uart_config);
+    // ret = uart_param_config(HASP_LOG_UART_PORT, &uart_config);
+    ret = uart_set_baudrate(HASP_LOG_UART_PORT, 115200)
     if (ret != ESP_OK) {
         return ret;
     }

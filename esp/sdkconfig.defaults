@@ -20,6 +20,9 @@ CONFIG_LV_LOG_PRINTF=n
 
 CONFIG_LV_USE_FREETYPE=y
 
+# Don't compile LVGL example applications
+CONFIG_LV_BUILD_EXAMPLES=n
+
 # Performance
 CONFIG_COMPILER_OPTIMIZATION_PERF=y
 
