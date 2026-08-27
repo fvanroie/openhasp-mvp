@@ -71,7 +71,7 @@ jobs:
             -f raw
       
       - name: Upload firmware
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: openhasp-${{ matrix.preset }}
           path: build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin
