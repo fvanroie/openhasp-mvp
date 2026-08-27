@@ -27,6 +27,16 @@ jobs:
           ccache --show-config
           ccache --show-stats
 
+      - name: Inspect Python environment
+        run: |
+          echo "PATH=$PATH"
+          echo "IDF_PATH=$IDF_PATH"
+          which python
+          python --version
+          which pip || true
+          find /opt/esp -maxdepth 4 -type f -name pip 2>/dev/null | head -20
+          find /opt/esp -maxdepth 4 -type f -name python 2>/dev/null | head -20
+
       - name: Install project requirements
         run: |
           python -m pip install -r requirements.txt
