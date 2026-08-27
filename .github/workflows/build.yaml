@@ -1,0 +1,24 @@
+jobs:
+  build:
+    strategy:
+      matrix:
+        preset:
+          - wt32-sc01-plus-8mb
+          - wt32-sc01-plus-16mb
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: espressif/install-esp-idf-action@v1
+        with:
+          version: v6.0.2
+
+      # ESP-IDF setup...
+
+      - name: Board Manager
+        run: idf.py bmgr -b "wt32_sc01_plus"
+
+      - name: Build
+        run: idf.py --preset "${{ matrix.preset }}" build
