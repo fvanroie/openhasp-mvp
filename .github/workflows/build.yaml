@@ -56,7 +56,7 @@ jobs:
       - name: Board Manager
         run: |
           source "$IDF_PATH/export.sh"
-          idf.py bmgr -b "${{ matrix.preset }}"
+          idf.py bmgr -b "wt32_sc01_plus"
       
       - name: Build
         run: |
