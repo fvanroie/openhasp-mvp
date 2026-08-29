@@ -1,16 +1,17 @@
 /*
- * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2026 Franis Van Roie / openHASP
+ * SPDX-FileCopyrightText: 2024-2025 Espressif Systems (Shanghai) CO., LTD
  *
- * BMGR -> LVGL adapter integration.
+ * SPDX-License-Identifier: Apache-2.0
  *
- * The "lvgl" BMGR custom device describes mappings:
+ * This file is based on or incorporates material from the Espressif Systems 
+ * esp-board-manager example (main.c), licensed under the Apache License 2.0.
  *
- *   LVGL display #0 -> lcd device + optional touch device
- *   LVGL display #1 -> lcd device + optional touch device
- *   ...
- *
- * The physical LCD/touch devices themselves are initialized by BMGR.
+ * Changes made:
+ * - Refactored into a custom BMGR device abstraction layer (board_lvgl).
+ * - Added YAML policy structures for resolution and rotation mapping.
  */
+
 
 #include "board_lvgl.h"
 
