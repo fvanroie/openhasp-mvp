@@ -1,0 +1,7 @@
+version: "1.0"
+description: "Sunton ESP32-8048S043N family variant without touch"
+apply:
+  - ../board_devices.yaml
+  - ../board_peripherals.yaml
+  - ../sdkconfig.defaults.board
+  - ../lcd_043.yaml

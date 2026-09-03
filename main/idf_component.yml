@@ -19,5 +19,6 @@ dependencies:
   cezap/simple_ftp_server: ^1.0.0
   espressif/esp_lvgl_adapter: '*'
   espressif/esp_board_manager:
-    version: "*"
+    version: ^0.7.2
     require: public
+  espressif/button: ==4.2.1

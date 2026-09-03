@@ -1,0 +1,10 @@
+version: "1.0"
+description: "Sunton ESP32-8048S050R family variant with XPT2046 touch"
+apply:
+  - ../board_devices.yaml
+  - ../board_peripherals.yaml
+  - ../sdkconfig.defaults.board
+  - ../xpt2046.yaml
+  - ../lcd_050.yaml
+  - ../board_lvgl.yaml
+  - device_setup.c

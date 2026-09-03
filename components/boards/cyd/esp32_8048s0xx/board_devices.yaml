@@ -1,0 +1,71 @@
+devices:
+  - name: display_lcd
+    type: display_lcd
+    version: default
+    sub_type: rgb
+    chip: generic_rgb
+    config:
+      swap_xy: false
+      mirror_x: false
+      mirror_y: false
+      invert_color: false
+      need_reset: true
+      bits_per_pixel: 16
+      rgb_ele_order: LCD_RGB_ELEMENT_ORDER_RGB
+      data_endian: LCD_RGB_DATA_ENDIAN_BIG
+      rgb_panel_config:
+        clk_src: LCD_CLK_SRC_PLL160M
+        data_width: 16
+        in_color_format: LCD_COLOR_FMT_RGB565
+        out_color_format: LCD_COLOR_FMT_RGB565
+        data_gpio_nums: [8, 3, 46, 9, 1, 5, 6, 7, 15, 16, 4, 45, 48, 47, 21, 14]
+        hsync_gpio_num: 39
+        vsync_gpio_num: 41
+        de_gpio_num: 40
+        pclk_gpio_num: 42
+        disp_gpio_num: -1
+        timings:
+          h_res: 800
+          v_res: 480
+          flags:
+            pclk_active_neg: true    # Phase matches perfectly with the GT911 touch engine
+        num_fbs: 3
+        flags:
+          fb_in_psram: true
+        dma_burst_size: 64
+  - name: lcd_brightness
+    type: ledc_ctrl
+    version: default
+    config:
+      default_percent: 75
+    peripherals:
+      - name: ledc_backlight
+  - name: sdcard
+    type: fs_fat
+    sub_type: spi
+    version: default
+    config:
+      mount_point: "/sdcard"
+      vfs_config:
+        format_if_mount_failed: false
+        max_files: 5
+        allocation_unit_size: 16384
+      sub_config:
+        cs_gpio_num: 10
+    peripherals:
+      - name: spi_master
+  - name: lvgl
+    type: custom
+    init_skip: true
+    config:
+      displays:
+        - lcd: display_lcd
+          touch: none
+          backlight: lcd_brightness
+          rotation: 0
+          double_buffer: true
+          use_psram: true
+          buffer_height: 40
+    depends_on:
+      - display_lcd
+      - lcd_brightness

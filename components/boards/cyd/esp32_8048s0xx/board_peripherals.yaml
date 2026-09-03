@@ -1,0 +1,31 @@
+peripherals:
+  - name: i2c_master
+    type: i2c
+    role: master
+    config:
+      port: I2C_NUM_0
+      pins:
+        sda: 19
+        scl: 20
+  - name: spi_master
+    type: spi
+    role: master
+    config:
+      spi_bus_config:
+        spi_port: SPI2_HOST
+        mosi_io_num: 11
+        miso_io_num: 13
+        sclk_io_num: 12
+        max_transfer_sz: 6400
+  - name: ledc_backlight
+    type: ledc
+    version: default
+    config:
+      gpio_num: 2
+      channel: LEDC_CHANNEL_0
+      timer_sel: LEDC_TIMER_0
+      freq_hz: 25000
+      duty: 0
+      duty_resolution: LEDC_TIMER_10_BIT
+      output_invert: false
+      speed_mode: LEDC_LOW_SPEED_MODE

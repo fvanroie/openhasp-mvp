@@ -1,5 +1,6 @@
 idf_component_register(
     SRCS
+        "mouse_cursor_icon.c"
         "main.cpp"
         "board_lvgl.c"
     INCLUDE_DIRS "."

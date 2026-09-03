@@ -1,0 +1,17 @@
+devices:
+  - name: lvgl
+    type: custom
+    init_skip: true
+    config:
+      displays:
+        - lcd: display_lcd
+          touch: lcd_touch
+          backlight: lcd_brightness
+          rotation: 0
+          double_buffer: true
+          use_psram: true
+          buffer_height: 40
+    depends_on:
+      - display_lcd
+      - lcd_touch
+      - lcd_brightness

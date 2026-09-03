@@ -1,0 +1,5 @@
+board: esp32_8048s0xx
+chip: esp32s3
+version: "1.0.0"
+description: "CYD ESP32-8048S0xx family, 800x480 RGB16 ST7262 LCD, optional touch"
+manufacturer: "CYD"

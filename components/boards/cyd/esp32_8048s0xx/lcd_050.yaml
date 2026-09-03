@@ -1,0 +1,12 @@
+devices:
+  - name: display_lcd
+    config:
+      rgb_panel_config:
+        timings:
+          pclk_hz: 15000000          # 15MHz is the community sweet spot for the ST7262 driver
+          hsync_pulse_width: 4
+          hsync_back_porch: 43       # The exact driver specification to fix the 25% shift
+          hsync_front_porch: 8       # Tightening the front porch stops right-edge bleed
+          vsync_pulse_width: 4
+          vsync_back_porch: 12       # Standard vertical sync limits
+          vsync_front_porch: 8

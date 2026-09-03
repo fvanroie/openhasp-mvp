@@ -21,9 +21,6 @@
 #include "hasp_service_manager.hpp"
 #include "hasp_wifi.hpp"
 
-#include "driver/gpio.h"
-#define LCD_BL_GPIO 45 // or whatever pin your board uses
-
 static const char *TAG = "main";
 
 static ServiceManager mgr;
@@ -92,41 +89,8 @@ static void app_ui_init()
     }
 }
 
-static void test_gpio(gpio_num_t gpio_num)
-{
-    ESP_LOGI(TAG, "Testing GPIO%d", gpio_num);
-
-    gpio_config_t cfg = {
-        .pin_bit_mask = 1ULL << gpio_num,
-        .mode = GPIO_MODE_OUTPUT,
-        .pull_up_en = GPIO_PULLUP_DISABLE,
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE,
-    };
-
-    esp_err_t err = gpio_config(&cfg);
-    ESP_LOGI(TAG, "gpio_config(GPIO%d) -> %s",
-             gpio_num, esp_err_to_name(err));
-
-    if (err == ESP_OK) {
-        gpio_set_level(gpio_num, 0);
-        ESP_LOGI(TAG, "GPIO%d -> 0", gpio_num);
-
-        gpio_set_level(gpio_num, 1);
-        ESP_LOGI(TAG, "GPIO%d -> 1", gpio_num);
-
-        gpio_set_level(gpio_num, 0);
-        ESP_LOGI(TAG, "GPIO%d -> 0", gpio_num);
-    }
-}
-
 extern "C" void app_main()
 {
-   // gpio_reset_pin(GPIO_NUM_41);
-   // gpio_reset_pin(GPIO_NUM_42);
-    gpio_dump_io_configuration(stdout,
-                           (1ULL << 41) | (1ULL << 42));
-
     hasp_log_init();
 
     ESP_ERROR_CHECK(nvs_flash_init());
@@ -158,8 +122,7 @@ extern "C" void app_main()
         // mgr.set_config(doc.as<JsonObject>());
     }
 
-    gpio_dump_io_configuration(stdout,
-                           (1ULL << 41) | (1ULL << 42));
+    esp_board_manager_print_board_info();
     ESP_ERROR_CHECK(esp_board_manager_init());
     esp_board_manager_print();
 
@@ -171,15 +134,15 @@ extern "C" void app_main()
     // ---------- Backlight ----------
     // WT32-SC01 Plus usually has backlight on GPIO 45 (check your board YAML / schematic)
 
-    gpio_config_t bl_conf = {
-        .pin_bit_mask = 1ULL << LCD_BL_GPIO,
-        .mode = GPIO_MODE_OUTPUT,
-        .pull_up_en = GPIO_PULLUP_DISABLE,
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE,
-    };
-    gpio_config(&bl_conf);
-    gpio_set_level((gpio_num_t)LCD_BL_GPIO, 1);
+    // gpio_config_t bl_conf = {
+    //     .pin_bit_mask = 1ULL << LCD_BL_GPIO,
+    //     .mode = GPIO_MODE_OUTPUT,
+    //     .pull_up_en = GPIO_PULLUP_DISABLE,
+    //     .pull_down_en = GPIO_PULLDOWN_DISABLE,
+    //     .intr_type = GPIO_INTR_DISABLE,
+    // };
+    // gpio_config(&bl_conf);
+    // gpio_set_level((gpio_num_t)LCD_BL_GPIO, 1);
 
     // // ---------- Fill screen CYAN ----------
     // const int width = 320; // or 480 depending on orientation

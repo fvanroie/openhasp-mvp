@@ -1,0 +1,23 @@
+devices:
+  - name: display_lcd
+    config:
+      rgb_panel_config:
+        vsync_gpio_num: 40
+        de_gpio_num: 41
+        timings:
+          pclk_hz: 13900000          # 12MHz is mandatory to prevent PSRAM/DMA jitter
+          h_res: 800
+          v_res: 480
+          data_gpio_nums: [15, 7, 6, 5, 4, 9, 46, 3, 8, 16, 1, 14, 21, 47, 48, 45]
+          hsync_pulse_width: 10
+          hsync_back_porch: 43        # Back down to 8 for the 7" hardware layout
+          hsync_front_porch: 8
+          vsync_pulse_width: 8
+          vsync_back_porch: 12
+          vsync_front_porch: 8
+          flags:
+            hsync_idle_low: true
+            vsync_idle_low: true
+            de_idle_high: false
+            pclk_active_neg: true
+            pclk_idle_high: false

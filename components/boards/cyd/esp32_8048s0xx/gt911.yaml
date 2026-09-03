@@ -1,0 +1,24 @@
+devices:
+  - name: lcd_touch
+    type: lcd_touch
+    sub_type: i2c
+    chip: gt911
+    version: default
+    dependencies:
+      espressif/esp_lcd_touch_gt911: "*"
+    config:
+      io_i2c_config:
+        lcd_cmd_bits: 16
+      touch_config:
+        x_max: 800
+        y_max: 480
+        rst_gpio_num: 38
+        int_gpio_num: -1 # GPIO 18
+        levels:
+          reset: 0
+          interrupt: 0
+    peripherals:
+      - i2c_name: i2c_master
+        i2c_addr:
+          - 0x28
+          - 0xBA

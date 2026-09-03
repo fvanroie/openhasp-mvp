@@ -1,0 +1,12 @@
+devices:
+  - name: display_lcd
+    config:
+      rgb_panel_config:
+        timings:
+          pclk_hz: 14000000          # 14MHz is optimal for the 4.3" IPS matrix density
+          hsync_pulse_width: 4
+          hsync_back_porch: 43       # Crucial fix to prevent the 25% shift and wrap
+          hsync_front_porch: 8       
+          vsync_pulse_width: 4
+          vsync_back_porch: 12       # Stabilizes vertical screen shake on the 4.3" glass
+          vsync_front_porch: 8

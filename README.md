@@ -3,8 +3,8 @@ Minimal Viable Project for openHASP testing
 
 ## Tooling and Framework
 
-- ESP IDF 6.0.2
-- Board Manager 0.6.4
+- ESP IDF 6.1.0
+- Board Manager 0.7.2
 - LVGL 9.5
 
 ## Services and testing
@@ -19,6 +19,9 @@ Minimal Viable Project for openHASP testing
 
 ## Tested hardware
 
+- CYD ESP32-8040S043C (@fvanroie)
+- CYD ESP32-8040S050C (@fvanroie)
+- CYD ESP32-8040S070C (@fvanroie)
 - Wireless-Tag WT32-SC01 Plus (@fvanroie)
 
 ## Contributing
