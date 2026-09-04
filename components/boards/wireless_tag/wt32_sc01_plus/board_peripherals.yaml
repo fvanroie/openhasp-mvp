@@ -8,9 +8,6 @@ peripherals:
         sda: 6
         scl: 5
       enable_internal_pullup: true
-      
-    dependencies:
-      espressif/esp_board_manager: "*"
 
   - name: spi_sd
     type: spi
@@ -23,5 +20,15 @@ peripherals:
         sclk_io_num: 39
         max_transfer_sz: 4000
 
-    dependencies:
-      espressif/esp_board_manager: "*"
+  - name: ledc_backlight
+    type: ledc
+    version: default
+    config:
+      gpio_num: 45
+      channel: LEDC_CHANNEL_0
+      timer_sel: LEDC_TIMER_0
+      freq_hz: 25000
+      duty: 0
+      duty_resolution: LEDC_TIMER_10_BIT
+      output_invert: false
+      speed_mode: LEDC_LOW_SPEED_MODE

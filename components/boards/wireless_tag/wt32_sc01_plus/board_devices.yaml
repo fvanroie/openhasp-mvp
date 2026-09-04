@@ -5,7 +5,7 @@ devices:
     chip: st7796
 
     dependencies:
-      espressif/esp_lcd_st7796: "*"
+      espressif/esp_lcd_st7796: "^1.4.0"
       espressif/esp_board_manager: "*"
 
     config:
@@ -45,7 +45,7 @@ devices:
         lcd_param_bits: 8
 
         dc_levels:
-          dc_idle_level: 0
+          dc_idle_level: 1
           dc_cmd_level: 0
           dc_dummy_level: 0
           dc_data_level: 1
@@ -67,7 +67,7 @@ devices:
         flags:
           reset_active_high: false
 
-        vendor_config: ""
+        vendor_config: null
 
   - name: touch
     type: lcd_touch
@@ -103,6 +103,14 @@ devices:
         i2c_addr:
           - 0x70
 
+  - name: lcd_brightness
+    type: ledc_ctrl
+    version: default
+    config:
+      default_percent: 75
+    peripherals:
+      - name: ledc_backlight
+
   - name: sdcard
     type: fs_fat
     sub_type: spi
@@ -127,6 +135,7 @@ devices:
       displays:
         - lcd: display_lcd
           touch: touch
+          backlight: lcd_brightness
           rotation: 0
           double_buffer: true
           use_psram: false
@@ -135,3 +144,4 @@ devices:
     depends_on:                  # Optional; initialization dependencies (list of device names)
       - display_lcd
       - touch
+      - lcd_brightness

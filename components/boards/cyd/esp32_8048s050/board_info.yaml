@@ -1,5 +1,0 @@
-board: esp32_8048s043r
-chip: esp32s3
-version: "1.0.0"
-description: "Sunton ESP32-8048S043R, 4.3-inch 800x480 RGB16 ST7262 with XPT2046"
-manufacturer: "Sunton"

@@ -1,5 +1,0 @@
-peripherals:
-  # LCD BACKLIGHT CONTROL
-  - name: ledc_backlight
-    config:
-      gpio_num: 27

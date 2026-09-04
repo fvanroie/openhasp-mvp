@@ -16,10 +16,10 @@
   "clangd.arguments": [
     "--background-index",
     "--query-driver=**",
-    "--compile-commands-dir=/workspaces/sample_project/build/esp32-8048s043c"
+    "--compile-commands-dir=/workspaces/sample_project/build/wt32-sc01-plus-8mb"
   ],
   "idf.flashType": "UART",
-  "idf.port": "/dev/ttyUSB0",
+  "idf.port": "/dev/ttyACM0",
   "idf.customTask": "idf.py bmgr -b ${env:BSP_BOARD}",
-  "idf.monitorPort": "/dev/ttyUSB0"
+  "idf.monitorPort": "/dev/ttyACM0"
 }

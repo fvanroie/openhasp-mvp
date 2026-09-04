@@ -23,7 +23,6 @@
 	},
 	"runArgs": [
 		"--privileged",
-		"--device=/dev/ttyACM0:/dev/ttyACM0",
-		"--device=/dev/ttyUSB0:/dev/ttyUSB0"
+		"--mount=type=bind,source=/dev,target=/dev"
 	]
 }
