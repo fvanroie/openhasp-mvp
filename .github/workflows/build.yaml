@@ -108,13 +108,17 @@ jobs:
       - name: Merge firmware
         run: |
           source "$IDF_PATH/export.sh"
+
           idf.py --preset "${{ matrix.preset }}" merge-bin \
             -o "openhasp-${{ matrix.preset }}.bin" \
             -f raw
+
+          ls -lh "build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin"
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: openhasp-${{ matrix.preset }}
-          path: openhasp-${{ matrix.preset }}.bin
+          path: build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin
+          if-no-files-found: error
 
