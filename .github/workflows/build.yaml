@@ -6,14 +6,47 @@ on:
   workflow_dispatch:
 
 jobs:
+  presets:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.presets.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Generate build matrix
+        id: presets
+        shell: bash
+        run: |
+          matrix="$(
+            jq -c '
+              [
+                .configurePresets[]
+                | {
+                    preset: .name,
+                    bsp_board: .environment.BSP_BOARD,
+                    bsp_amend: (.environment.BSP_AMEND // "")
+                  }
+              ]
+            ' CMakePresets.json
+          )"
+
+          echo "Build matrix:"
+          echo "$matrix" | jq .
+
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: presets
+
     strategy:
+      fail-fast: false
       matrix:
-        preset:
-          - wt32-sc01-plus-8mb
-          - wt32-sc01-plus-16mb
+        include: ${{ fromJSON(needs.presets.outputs.matrix) }}
 
     runs-on: ubuntu-latest
+
     defaults:
       run:
         shell: bash
@@ -23,7 +56,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
-      
+
       - name: Show ccache configuration
         run: |
           echo "CCACHE_DIR=$CCACHE_DIR"
@@ -52,26 +85,36 @@ jobs:
         run: |
           source "$IDF_PATH/export.sh"
           python -m pip install -r requirements.txt
-      
+
       - name: Board Manager
         run: |
           source "$IDF_PATH/export.sh"
-          idf.py bmgr -b "wt32_sc01_plus"
-            
+
+          args=(-b "${{ matrix.bsp_board }}")
+
+          if [[ -n "${{ matrix.bsp_amend }}" ]]; then
+            args+=(-a "${{ matrix.bsp_amend }}")
+          fi
+
+          echo "Running: idf.py bmgr ${args[*]}"
+
+          idf.py bmgr "${args[@]}"
+
       - name: Build
         run: |
-          . "$IDF_PATH/export.sh"
+          source "$IDF_PATH/export.sh"
           idf.py --preset "${{ matrix.preset }}" build
-      
+
       - name: Merge firmware
         run: |
-          . "$IDF_PATH/export.sh"
+          source "$IDF_PATH/export.sh"
           idf.py --preset "${{ matrix.preset }}" merge-bin \
             -o "openhasp-${{ matrix.preset }}.bin" \
             -f raw
-      
+
       - name: Upload firmware
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: openhasp-${{ matrix.preset }}
-          path: build/${{ matrix.preset }}/openhasp-${{ matrix.preset }}.bin
+          path: openhasp-${{ matrix.preset }}.bin
+
