@@ -44,6 +44,19 @@
       }
     },
     {
+      "name": "makerfabs-s3-tft-40-rgb",
+      "displayName": "Makerfabs ESP32-S3 Parallel TFT With Touch 4.0",
+      "binaryDir": "build/makerfabs-s3-tft-40-rgb",
+      "cacheVariables": {
+        "IDF_TARGET": "esp32s3",
+        "SDKCONFIG": "build/sdkconfig.makerfabs-s3-tft-40-rgb",
+        "SDKCONFIG_DEFAULTS": "esp/sdkconfig.defaults;components/gen_bmgr_codes/board_manager.defaults;esp/sdkconfig.defaults.esp32s3;esp/partitions/sdkconfig.defaults.16mb"
+      },
+      "environment": {
+        "BSP_BOARD": "makerfabs_s3_tft_40_rgb"
+      }
+    },
+    {
       "name": "wt32-sc01-plus-8mb",
       "displayName": "WT32-SC01 Plus - 8MB",
       "binaryDir": "build/wt32-sc01-plus-8mb",

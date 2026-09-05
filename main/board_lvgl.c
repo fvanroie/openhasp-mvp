@@ -356,16 +356,15 @@ static esp_err_t board_lvgl_resolve_devices(board_lvgl_display_t *d)
 
     /*
      * Backlight is another BMGR device dependency.
+     * It can be NULL or "" if there is not backlight control.
      */
-    if (d->policy->backlight &&
-        d->policy->backlight[0])
+    const char *backlight = (const char *)d->policy->backlight;
+    if (backlight && backlight[0] != '\0')
     {
-
         ret = esp_board_manager_get_device_handle(
-            d->policy->backlight,
+            backlight,
             &handle);
-        if (ret != ESP_OK)
-        {
+        if (ret != ESP_OK) {
             return ret;
         }
 

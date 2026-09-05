@@ -1,0 +1,5 @@
+board: makerfabs_s3_tft_40_rgb
+chip: esp32s3
+version: "1.0.0"
+description: "Makerfabs ESP32-S3 Parallel TFT With Touch 4.0"
+manufacturer: "Makerfabs"

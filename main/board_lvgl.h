@@ -10,7 +10,7 @@ extern "C" {
 
 #include "dev_display_lcd.h"
 #include "dev_lcd_touch.h"
-#include "dev_ledc_ctrl.h"
+// #include "dev_ledc_ctrl.h"
 #include "gen_board_device_custom.h"
 
 typedef struct {

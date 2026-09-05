@@ -1,0 +1,14 @@
+# ============================================================
+# Makerfabs ESP32-S3 Parallel TFT 4.0
+# ESP32-S3-WROOM-1-N16R8
+# ============================================================
+
+CONFIG_BOARD_LVGL_USE_RGB_3WIRE_SPI=y
+
+# 16 MB Flash
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+
+# 8 MB Octal PSRAM
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_TYPE_AUTO=y

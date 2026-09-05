@@ -1,0 +1,22 @@
+peripherals:
+  - name: i2c_master
+    type: i2c
+    role: master
+    format: std
+    config:
+      pins:
+        sda: 17
+        scl: 18
+      clk_source: I2C_CLK_SRC_DEFAULT
+      glitch_count: 7
+      
+  - name: spi_master
+    type: spi
+    role: master
+    config:
+      spi_bus_config:
+        spi_port: SPI2_HOST
+        mosi_io_num: 11
+        miso_io_num: 13
+        sclk_io_num: 12
+        max_transfer_sz: 6400

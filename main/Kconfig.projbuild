@@ -2,9 +2,15 @@ menu "openHASP Board Configuration"
 
 config BOARD_LVGL_USE_RGB
     bool "Use RGB LCD support"
-    depends on ESP_BOARD_ESP32_8048S0XX
-    default y
+    default n
     help
-        Enable RGB LCD support for the ESP32-8048S0xx board family.
+        Enable LVGL support for RGB LCD panels.
+
+config BOARD_LVGL_USE_RGB_3WIRE_SPI
+    bool "Use RGB+3-wire SPI LCD support"
+    default n
+    help
+        Enable LVGL support for LCD panels using an RGB pixel bus
+        with a 3-wire SPI command/initialization interface.
 
 endmenu

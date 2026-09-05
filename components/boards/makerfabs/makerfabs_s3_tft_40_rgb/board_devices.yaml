@@ -1,0 +1,132 @@
+devices:
+  - name: sdcard
+    type: fs_fat
+    sub_type: spi
+    version: default
+    config:
+      mount_point: "/sdcard"
+      vfs_config:
+        format_if_mount_failed: false
+        max_files: 5
+        allocation_unit_size: 16384
+      sub_config:
+        cs_gpio_num: 10
+    peripherals:
+      - name: spi_master
+
+  # The 4.0-inch ST7701S RGB Configuration mapped to standard rgb_panel_config structures
+  - name: display_lcd
+    type: display_lcd
+    sub_type: rgb_3wire_spi
+    chip: st7701
+
+    dependencies:
+      espressif/esp_board_manager: "*"
+      espressif/esp_lcd_panel_io_additions: "*"
+      espressif/esp_lcd_st7701: "^2.0.0"
+
+    config:
+      swap_xy: false
+      mirror_x: false
+      mirror_y: false
+      invert_color: false
+      need_reset: false
+      bits_per_pixel: 16
+      rgb_ele_order: LCD_RGB_ELEMENT_ORDER_RGB
+      data_endian: LCD_RGB_DATA_ENDIAN_BIG
+
+      io_3wire_spi_config:
+        io_expander_name: ""
+        line_config:
+          cs_io_type: IO_TYPE_GPIO
+          cs_gpio_num: 1
+
+          scl_io_type: IO_TYPE_GPIO
+          scl_gpio_num: 12
+
+          sda_io_type: IO_TYPE_GPIO
+          sda_gpio_num: 11
+
+      # Extracted configuration mapped to raw structural configurations
+      # Moved to components/boards/makerfabs/makerfabs_s3_tft_40_rgb/setup_device.c
+      rgb_panel_config:
+        # clk_src: LCD_CLK_SRC_PLL160M
+        data_width: 16
+        # in_color_format: LCD_COLOR_FMT_RGB565
+        # out_color_format: LCD_COLOR_FMT_RGB565
+
+        # hsync_gpio_num: 5
+        # vsync_gpio_num: 4
+        # de_gpio_num: 45
+        # pclk_gpio_num: 21
+        # disp_gpio_num: -1
+        # data_gpio_nums: [39, 40, 41, 42, 2, 0, 9, 14, 47, 48, 3, 6, 7, 15, 16, 8]
+        flags:
+          fb_in_psram: true
+        timings:
+        #   pclk_hz: 14000000
+          h_res: 480
+          v_res: 480
+        #   hsync_pulse_width: 8
+        #   hsync_back_porch: 50
+        #   hsync_front_porch: 10
+        #   vsync_pulse_width: 8
+        #   vsync_back_porch: 20
+        #   vsync_front_porch: 10
+        #   flags:
+        #     hsync_idle_low: false
+        #     vsync_idle_low: false
+        #     pclk_active_neg: true
+
+      # esp_lcd_panel_dev_config_t fields passed to the LCD chip factory.
+      lcd_panel_config:
+        reset_gpio_num: -1                # [IO] Reset GPIO pin; set -1 if reset is not connected to a SoC GPIO
+        rgb_ele_order: LCD_RGB_ELEMENT_ORDER_RGB  # RGB/BGR element order for LCD controller command setup
+        data_endian: LCD_RGB_DATA_ENDIAN_BIG      # Does not determine the generated RGB + 3-wire SPI frame_format
+        bits_per_pixel: 18                # [TO_BE_CONFIRMED] LCD controller pixel width, e.g., GC9503 often uses 18
+        flags:
+          reset_active_high: false        # Reset pin active level: false=active low, true=active high
+        vendor_config: NULL               # NULL lets bmgr pass rgb_panel_config as vendor_config by default
+        auto_del_panel_io: true           # If chip driver supports it, delete 3-wire panel IO after init; GPIO expander is not deleted
+
+        
+
+  - name: lcd_touch
+    type: lcd_touch
+    sub_type: i2c
+    chip: gt911
+    version: default
+    dependencies:
+      espressif/esp_lcd_touch_gt911: "*"
+    config:
+      io_i2c_config:
+        lcd_cmd_bits: 16
+      touch_config:
+        x_max: 480
+        y_max: 480
+        rst_gpio_num: 38
+        int_gpio_num: -1
+        levels:
+          reset: 0
+          interrupt: 0
+    peripherals:
+      - i2c_name: i2c_master
+        i2c_addr:
+          - 0x28
+          - 0xBA
+
+  - name: lvgl
+    type: custom
+    init_skip: true
+    config:
+      displays:
+        - lcd: display_lcd
+          touch: lcd_touch
+          backlight: NULL  # Always on, no backlight control
+          rotation: 0
+          double_buffer: true
+          use_psram: true
+          buffer_height: 40
+    depends_on:
+      - display_lcd
+      - lcd_touch
