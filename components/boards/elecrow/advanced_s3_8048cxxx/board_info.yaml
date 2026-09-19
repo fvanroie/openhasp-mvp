@@ -1,0 +1,5 @@
+board: advanced_s3_8048cxxx
+chip: esp32s3
+version: "1.0.0"
+description: "Elecrow CrowPanel Advance family, 800x480 RGB16 ST7265/SC7277 LCD, GT911 capacitive touch"
+manufacturer: "Elecrow"

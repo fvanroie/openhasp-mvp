@@ -3,7 +3,7 @@
   "configurePresets": [
     {
       "name": "esp32-8048s043c",
-      "displayName": "ESP32-8048S043C - 8MB",
+      "displayName": "CYD ESP32-8048S043C - 16MB",
       "binaryDir": "build/esp32-8048s043c",
       "cacheVariables": {
         "IDF_TARGET": "esp32s3",
@@ -17,7 +17,7 @@
     },
     {
       "name": "esp32-8048s050c",
-      "displayName": "ESP32-8048S050C - 8MB",
+      "displayName": "CYD ESP32-8048S050C - 16MB",
       "binaryDir": "build/esp32-8048s050c",
       "cacheVariables": {
         "IDF_TARGET": "esp32s3",
@@ -31,7 +31,7 @@
     },
     {
       "name": "esp32-8048s070c",
-      "displayName": "ESP32-8048S070C - 8MB",
+      "displayName": "CYD ESP32-8048S070C - 16MB",
       "binaryDir": "build/esp32-8048s070c",
       "cacheVariables": {
         "IDF_TARGET": "esp32s3",
@@ -43,9 +43,53 @@
         "BSP_AMEND": "esp32_8048s070c"
       }
     },
+
+    {
+      "name": "advanced-s3-8048c043",
+      "displayName": "Elecrow Advances S3 8048C043 - 16MB",
+      "binaryDir": "build/advanced-s3-8048c043",
+      "cacheVariables": {
+        "IDF_TARGET": "esp32s3",
+        "SDKCONFIG": "build/sdkconfig.advanced-s3-8048c043",
+        "SDKCONFIG_DEFAULTS": "esp/sdkconfig.defaults;components/gen_bmgr_codes/board_manager.defaults;esp/sdkconfig.defaults.esp32s3;esp/partitions/sdkconfig.defaults.16mb"
+      },
+      "environment": {
+        "BSP_BOARD": "advanced_s3_8048cxxx",
+        "BSP_AMEND": "advanced_s3_8048c043"
+      }
+    },
+    {
+      "name": "advanced-s3-8048c050",
+      "displayName": "Elecrow Advances S3 8048C050 - 16MB",
+      "binaryDir": "build/advanced-s3-8048c050",
+      "cacheVariables": {
+        "IDF_TARGET": "esp32s3",
+        "SDKCONFIG": "build/sdkconfig.advanced-s3-8048c050",
+        "SDKCONFIG_DEFAULTS": "esp/sdkconfig.defaults;components/gen_bmgr_codes/board_manager.defaults;esp/sdkconfig.defaults.esp32s3;esp/partitions/sdkconfig.defaults.16mb"
+      },
+      "environment": {
+        "BSP_BOARD": "advanced_s3_8048cxxx",
+        "BSP_AMEND": "advanced_s3_8048c050"
+      }
+    },
+    {
+      "name": "advanced-s3-8048c070",
+      "displayName": "Elecrow Advances S3 8048C070 - 16MB",
+      "binaryDir": "build/advanced-s3-8048c070",
+      "cacheVariables": {
+        "IDF_TARGET": "esp32s3",
+        "SDKCONFIG": "build/sdkconfig.advanced-s3-8048c070",
+        "SDKCONFIG_DEFAULTS": "esp/sdkconfig.defaults;components/gen_bmgr_codes/board_manager.defaults;esp/sdkconfig.defaults.esp32s3;esp/partitions/sdkconfig.defaults.16mb"
+      },
+      "environment": {
+        "BSP_BOARD": "advanced_s3_8048cxxx",
+        "BSP_AMEND": "advanced_s3_8048c070"
+      }
+    },
+
     {
       "name": "makerfabs-s3-tft-40-rgb",
-      "displayName": "Makerfabs ESP32-S3 Parallel TFT With Touch 4.0",
+      "displayName": "Makerfabs ESP32-S3 Parallel TFT With Touch 4.0 - 16MB",
       "binaryDir": "build/makerfabs-s3-tft-40-rgb",
       "cacheVariables": {
         "IDF_TARGET": "esp32s3",
@@ -56,6 +100,7 @@
         "BSP_BOARD": "makerfabs_s3_tft_40_rgb"
       }
     },
+
     {
       "name": "wt32-sc01-plus-8mb",
       "displayName": "WT32-SC01 Plus - 8MB",

@@ -1,0 +1,9 @@
+peripherals:
+  - name: i2c_master
+    type: i2c
+    role: master
+    config:
+      port: I2C_NUM_0
+      pins:
+        sda: 19
+        scl: 20

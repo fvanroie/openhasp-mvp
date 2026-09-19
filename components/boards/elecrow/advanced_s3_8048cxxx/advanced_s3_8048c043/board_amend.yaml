@@ -1,0 +1,4 @@
+version: "1.0"
+description: "Elecrow CrowPanel Advance 4.3 (800x480) family variant"
+apply:
+  - lcd_043.yaml

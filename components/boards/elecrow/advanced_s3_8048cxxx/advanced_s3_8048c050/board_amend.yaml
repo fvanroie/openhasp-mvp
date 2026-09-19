@@ -1,0 +1,4 @@
+version: "1.0"
+description: "Elecrow CrowPanel Advance 5.0 (800x480) family variant"
+apply:
+  - lcd_050.yaml

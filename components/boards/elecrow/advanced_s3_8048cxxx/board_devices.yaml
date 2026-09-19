@@ -1,0 +1,90 @@
+devices:
+  - name: display_lcd
+    type: display_lcd
+    version: default
+    sub_type: rgb
+    chip: generic_rgb
+    config:
+      swap_xy: false
+      mirror_x: false
+      mirror_y: false
+      invert_color: false
+      need_reset: false
+      bits_per_pixel: 16
+      rgb_ele_order: LCD_RGB_ELEMENT_ORDER_RGB
+      data_endian: LCD_RGB_DATA_ENDIAN_BIG
+      rgb_panel_config:
+        clk_src: LCD_CLK_SRC_PLL160M
+        in_color_format: LCD_COLOR_FMT_RGB565
+        out_color_format: LCD_COLOR_FMT_RGB565
+        data_width: 16
+        data_gpio_nums:
+          - 8    # D0  = B0
+          - 3    # D1  = B1
+          - 46   # D2  = B2
+          - 9    # D3  = B3
+          - 1    # D4  = B4
+          - 5    # D5  = G0
+          - 6    # D6  = G1
+          - 7    # D7  = G2
+          - 15   # D8  = G3
+          - 16   # D9  = G4
+          - 4    # D10 = G5
+          - 45   # D11 = R0
+          - 48   # D12 = R1
+          - 47   # D13 = R2
+          - 21   # D14 = R3
+          - 14   # D15 = R4
+        hsync_gpio_num: 39   # TFT_HSYNC
+        vsync_gpio_num: 41   # TFT_VSYNC
+        de_gpio_num: 40      # TFT_DE
+        pclk_gpio_num: 42    # TFT_PCLK
+        disp_gpio_num: -1
+        timings:
+          h_res: 800
+          v_res: 480
+          flags:
+            pclk_active_neg: true    # TFT_PCLK_ACTIVE_NEG
+        num_fbs: 3
+        flags:
+          fb_in_psram: true
+        dma_burst_size: 64
+
+  - name: lcd_touch
+    type: lcd_touch
+    sub_type: i2c
+    chip: gt911
+    version: default
+    dependencies:
+      espressif/esp_lcd_touch_gt911: "*"
+    config:
+      io_i2c_config:
+        lcd_cmd_bits: 16
+      touch_config:
+        x_max: 800
+        y_max: 480
+        rst_gpio_num: -1 # TOUCH_RST not connected
+        int_gpio_num: -1 # TOUCH_IRQ not connected
+        levels:
+          reset: 0
+          interrupt: 0
+    peripherals:
+      - i2c_name: i2c_master
+        i2c_addr:
+          - 0xBA   # GT911 0x5D, 8-bit write address
+
+  - name: lvgl
+    type: custom
+    init_skip: true
+    config:
+      displays:
+        - lcd: display_lcd
+          touch: lcd_touch
+          backlight: NULL  # Always on, no backlight control
+          rotation: 0
+          double_buffer: true
+          use_psram: true
+          buffer_height: 40
+    depends_on:
+      - display_lcd
+      - lcd_touch

@@ -1,0 +1,20 @@
+devices:
+  - name: display_lcd
+    config:
+      rgb_panel_config:
+        timings:
+          pclk_hz: 16000000          # TFT_PREFER_SPEED
+          h_res: 800
+          v_res: 480
+          hsync_pulse_width: 48
+          hsync_back_porch: 40
+          hsync_front_porch: 40
+          vsync_pulse_width: 3
+          vsync_back_porch: 1
+          vsync_front_porch: 13
+          flags:
+            hsync_idle_low: false    # TFT_HSYNC_POLARITY=0
+            vsync_idle_low: false    # TFT_VSYNC_POLARITY=0
+            de_idle_high: false
+            pclk_active_neg: true    # TFT_PCLK_ACTIVE_NEG
+            pclk_idle_high: false
