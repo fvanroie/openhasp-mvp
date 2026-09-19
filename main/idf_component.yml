@@ -17,8 +17,9 @@ dependencies:
   bblanchon/arduinojson: ^7.4.3
   espressif/esp_lcd_touch: '*'
   cezap/simple_ftp_server: ^1.0.0
-  espressif/esp_lvgl_adapter: '*'
   espressif/esp_board_manager:
     version: ^0.7.2
     require: public
   espressif/button: ==4.2.1
+  espressif/esp_lvgl_adapter: "^0.7.0"
+  lvgl/lvgl: 9.5.0
