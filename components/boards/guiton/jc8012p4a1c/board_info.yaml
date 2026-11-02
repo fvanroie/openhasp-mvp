@@ -1,0 +1,5 @@
+board: jc8012p4a1c
+chip: esp32p4
+version: 1.0.0
+description: "Guition JC8012P4A1C_I_W_Y V2, SKU 10153001, batch 2627"
+manufacturer: "Guition"

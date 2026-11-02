@@ -1,0 +1,33 @@
+peripherals:
+
+  # ESP32-P4 MIPI DSI PHY supply.
+  # Schematic / known working JC8012 implementation:
+  # VO3 / channel 3 -> 2.5 V -> VDD_MIPI_DPHY.
+  - name: ldo_mipi
+    type: ldo
+    config:
+      chan_id: 3
+      voltage_mv: 2500
+      adjustable: 1
+      owned_by_hw: 0
+
+  # ESP32-P4 has one MIPI DSI controller.
+  - name: dsi_display
+    type: dsi
+    config:
+      bus_id: 0
+      data_lanes: 2
+      phy_clk_src: 0
+      lane_bit_rate_mbps: 1500
+
+  # GPIO23 -> LCD_PWM -> MP3202 EN.
+  - name: ledc_backlight
+    type: ledc
+    config:
+      gpio_num: 23
+      speed_mode: LEDC_LOW_SPEED_MODE
+      channel: 0
+      timer_sel: 0
+      freq_hz: 5000
+      duty: 0
+      duty_resolution: LEDC_TIMER_10_BIT

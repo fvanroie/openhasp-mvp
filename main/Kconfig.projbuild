@@ -1,5 +1,11 @@
 menu "openHASP Board Configuration"
 
+config BOARD_LVGL_USE_DSI
+    bool "Use DSI LCD support"
+    default n
+    help
+        Enable LVGL support for DSI LCD panels.
+
 config BOARD_LVGL_USE_RGB
     bool "Use RGB LCD support"
     default n

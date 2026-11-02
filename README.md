@@ -4,8 +4,8 @@ Minimal Viable Project for openHASP testing
 ## Tooling and Framework
 
 - ESP IDF 6.1.0
-- Board Manager 0.7.2
-- LVGL 9.5
+- Board Manager 0.7.5
+- LVGL 9.6
 
 ## Services and testing
 

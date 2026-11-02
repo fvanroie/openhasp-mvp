@@ -12,6 +12,7 @@ idf_component_register(
         hasp_log
         hasp_mqtt
         hasp_service
+        hasp_time
         hasp_wifi
         nvs_flash
         bblanchon__arduinojson
@@ -28,11 +29,12 @@ target_compile_options(${COMPONENT_LIB} PRIVATE
     -Werror
     -Wno-error=missing-field-initializers
     -Wno-error=stringop-truncation
+    -Wno-error=cpp
 )
 
 idf_build_set_property(
     COMPILE_OPTIONS
-    "-Wno-error=format-truncation;-Wno-error=stringop-truncation"
+    "-Wno-error=format-truncation;-Wno-error=stringop-truncation;-Wno-error=cpp"
     APPEND
 )
 

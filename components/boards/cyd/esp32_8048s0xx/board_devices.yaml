@@ -15,10 +15,26 @@ devices:
       data_endian: LCD_RGB_DATA_ENDIAN_BIG
       rgb_panel_config:
         clk_src: LCD_CLK_SRC_PLL160M
-        data_width: 16
         in_color_format: LCD_COLOR_FMT_RGB565
         out_color_format: LCD_COLOR_FMT_RGB565
-        data_gpio_nums: [8, 3, 46, 9, 1, 5, 6, 7, 15, 16, 4, 45, 48, 47, 21, 14]
+        data_width: 16
+        data_gpio_nums:
+          - 6    # D0  = B0
+          - 7    # D1  = B1
+          - 15   # D2  = B2
+          - 16   # D3  = B3
+          - 8    # D4  = B4
+          - 0    # D5  = G0
+          - 9    # D6  = G1
+          - 14   # D7  = G2
+          - 47   # D8  = G3
+          - 48   # D9  = G4
+          - 3    # D10 = G5
+          - 39   # D11 = R0
+          - 40   # D12 = R1
+          - 41   # D13 = R2
+          - 42   # D14 = R3
+          - 2    # D15 = R4
         hsync_gpio_num: 39
         vsync_gpio_num: 41
         de_gpio_num: 40

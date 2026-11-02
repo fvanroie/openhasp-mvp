@@ -21,6 +21,8 @@ CONFIG_LV_LOG_PRINTF=n
 CONFIG_LV_USE_FREETYPE=y
 CONFIG_LV_DRAW_THREAD_STACK_SIZE=32768
 
+CONFIG_LV_USE_SVG=y
+
 # Don't compile LVGL example applications
 CONFIG_LV_BUILD_EXAMPLES=n
 
@@ -48,3 +50,16 @@ CONFIG_ESP_LVGL_ADAPTER_FREETYPE_SMALL_RENDER_POOL=y
 
 CONFIG_HTTPD_WS_SUPPORT=y
 CONFIG_HTTPD_WS_PRE_HANDSHAKE_CB_SUPPORT=y
+
+# ============================================================
+# Time / SNTP (hasp_time)
+# ============================================================
+
+# Allow up to 3 NTP servers (hasp_time uses server/server2/server3)
+CONFIG_LWIP_SNTP_MAX_SERVERS=3
+
+# Re-sync every hour by default (hasp_time can override at runtime)
+CONFIG_LWIP_SNTP_UPDATE_DELAY=3600000
+
+# Skip the random 1-5 min startup delay so the clock is valid quickly
+# CONFIG_LWIP_SNTP_STARTUP_DELAY is not set
